@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>app.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+app.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">flask </span><span class="s0">import </span><span class="s1">Flask</span><span class="s2">, </span><span class="s1">request</span><span class="s2">, </span><span class="s1">jsonify</span><span class="s2">, </span><span class="s1">render_template</span>
+<span class="s0">import </span><span class="s1">joblib</span>
+<span class="s0">import </span><span class="s1">numpy </span><span class="s0">as </span><span class="s1">np</span>
+<span class="s0">import </span><span class="s1">os</span>
+
+<span class="s3"># ✅ Forcer Flask à trouver les bons dossiers</span>
+<span class="s1">base_dir </span><span class="s2">= </span><span class="s1">os</span><span class="s2">.</span><span class="s1">path</span><span class="s2">.</span><span class="s1">abspath</span><span class="s2">(</span><span class="s1">os</span><span class="s2">.</span><span class="s1">path</span><span class="s2">.</span><span class="s1">dirname</span><span class="s2">(</span><span class="s1">__file__</span><span class="s2">))</span>
+
+<span class="s1">app </span><span class="s2">= </span><span class="s1">Flask</span><span class="s2">(</span><span class="s1">__name__</span><span class="s2">,</span>
+            <span class="s1">template_folder</span><span class="s2">=</span><span class="s1">os</span><span class="s2">.</span><span class="s1">path</span><span class="s2">.</span><span class="s1">join</span><span class="s2">(</span><span class="s1">base_dir</span><span class="s2">, </span><span class="s4">&quot;templates&quot;</span><span class="s2">),</span>
+            <span class="s1">static_folder</span><span class="s2">=</span><span class="s1">os</span><span class="s2">.</span><span class="s1">path</span><span class="s2">.</span><span class="s1">join</span><span class="s2">(</span><span class="s1">base_dir</span><span class="s2">, </span><span class="s4">&quot;static&quot;</span><span class="s2">))</span>
+
+<span class="s3"># Charger le modèle</span>
+<span class="s1">model </span><span class="s2">= </span><span class="s1">joblib</span><span class="s2">.</span><span class="s1">load</span><span class="s2">(</span><span class="s1">os</span><span class="s2">.</span><span class="s1">path</span><span class="s2">.</span><span class="s1">join</span><span class="s2">(</span><span class="s1">base_dir</span><span class="s2">, </span><span class="s4">&quot;model&quot;</span><span class="s2">, </span><span class="s4">&quot;modele_svm.pkl&quot;</span><span class="s2">))</span>
+
+<span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;✅ Modèle chargé avec succès !&quot;</span><span class="s2">)</span>
+
+
+<span class="s2">@</span><span class="s1">app</span><span class="s2">.</span><span class="s1">route</span><span class="s2">(</span><span class="s4">&quot;/&quot;</span><span class="s2">)</span>
+<span class="s0">def </span><span class="s1">index</span><span class="s2">():</span>
+    <span class="s0">return </span><span class="s1">render_template</span><span class="s2">(</span><span class="s4">&quot;index.html&quot;</span><span class="s2">)</span>
+
+
+<span class="s2">@</span><span class="s1">app</span><span class="s2">.</span><span class="s1">route</span><span class="s2">(</span><span class="s4">&quot;/predict&quot;</span><span class="s2">, </span><span class="s1">methods</span><span class="s2">=[</span><span class="s4">&quot;POST&quot;</span><span class="s2">])</span>
+<span class="s0">def </span><span class="s1">predict</span><span class="s2">():</span>
+    <span class="s0">try</span><span class="s2">:</span>
+        <span class="s1">data </span><span class="s2">= </span><span class="s1">request</span><span class="s2">.</span><span class="s1">get_json</span><span class="s2">()</span>
+        <span class="s1">features </span><span class="s2">= </span><span class="s1">np</span><span class="s2">.</span><span class="s1">array</span><span class="s2">(</span><span class="s1">data</span><span class="s2">[</span><span class="s4">&quot;features&quot;</span><span class="s2">]).</span><span class="s1">reshape</span><span class="s2">(</span><span class="s5">1</span><span class="s2">, -</span><span class="s5">1</span><span class="s2">)</span>
+        <span class="s1">prediction </span><span class="s2">= </span><span class="s1">model</span><span class="s2">.</span><span class="s1">predict</span><span class="s2">(</span><span class="s1">features</span><span class="s2">)</span>
+        <span class="s0">return </span><span class="s1">jsonify</span><span class="s2">({</span>
+            <span class="s4">&quot;success&quot;</span><span class="s2">: </span><span class="s0">True</span><span class="s2">,</span>
+            <span class="s4">&quot;prediction&quot;</span><span class="s2">: </span><span class="s1">prediction</span><span class="s2">.</span><span class="s1">tolist</span><span class="s2">()[</span><span class="s5">0</span><span class="s2">]</span>
+        <span class="s2">})</span>
+    <span class="s0">except </span><span class="s1">Exception </span><span class="s0">as </span><span class="s1">e</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s1">jsonify</span><span class="s2">({</span>
+            <span class="s4">&quot;success&quot;</span><span class="s2">: </span><span class="s0">False</span><span class="s2">,</span>
+            <span class="s4">&quot;error&quot;</span><span class="s2">: </span><span class="s1">str</span><span class="s2">(</span><span class="s1">e</span><span class="s2">)</span>
+        <span class="s2">}), </span><span class="s5">400</span>
+
+
+<span class="s0">if </span><span class="s1">__name__ </span><span class="s2">== </span><span class="s4">&quot;__main__&quot;</span><span class="s2">:</span>
+    <span class="s1">app</span><span class="s2">.</span><span class="s1">run</span><span class="s2">(</span><span class="s1">debug</span><span class="s2">=</span><span class="s0">True</span><span class="s2">, </span><span class="s1">host</span><span class="s2">=</span><span class="s4">&quot;0.0.0.0&quot;</span><span class="s2">, </span><span class="s1">port</span><span class="s2">=</span><span class="s5">5000</span><span class="s2">)</span></pre>
+</body>
+</html>

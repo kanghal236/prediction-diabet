@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiabetPredict — Outil de Prédiction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="logo">
+            <span class="logo-text">🏥 DiabetPredict</span>
+        </div>
+        <span class="badge">Modèle SVM</span>
+    </div>
+
+    <!-- CARTE PRINCIPALE -->
+    <div class="card">
+
+        <!-- EN-TÊTE -->
+        <div class="card-header">
+            <div class="header-icon">🩺</div>
+            <div>
+                <h1>Analyse de Risque Diabétique</h1>
+                <p>Renseignez les paramètres cliniques du patient pour obtenir une prédiction basée sur l'IA</p>
+            </div>
+        </div>
+
+        <!-- CORPS -->
+        <div class="card-body">
+            <p class="section-title">📋 Paramètres Cliniques</p>
+
+            <form id="predictionForm">
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="glucose">Glucose <span class="unit">(mg/dL)</span></label>
+                        <input type="number" id="glucose" placeholder="Ex: 120" step="any" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bloodpressure">Pression Artérielle <span class="unit">(mmHg)</span></label>
+                        <input type="number" id="bloodpressure" placeholder="Ex: 70" step="any" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skinthickness">Épaisseur de Peau <span class="unit">(mm)</span></label>
+                        <input type="number" id="skinthickness" placeholder="Ex: 20" step="any" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="insulin">Insuline <span class="unit">(µU/mL)</span></label>
+                        <input type="number" id="insulin" placeholder="Ex: 80" step="any" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bmi">IMC / BMI <span class="unit">(kg/m²)</span></label>
+                        <input type="number" id="bmi" placeholder="Ex: 28.5" step="any" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dpf">Diabetes Pedigree <span class="unit">(score)</span></label>
+                        <input type="number" id="dpf" placeholder="Ex: 0.5" step="any" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Âge <span class="unit">(années)</span></label>
+                        <input type="number" id="age" placeholder="Ex: 35" step="any" required>
+                    </div>
+
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-predict">
+                    🔍 Lancer l'Analyse Prédictive
+                </button>
+            </form>
+
+            <!-- RÉSULTAT -->
+            <div id="result" class="result hidden">
+                <div class="result-header" id="resultHeader"></div>
+                <div class="result-body">
+                    <p id="predictionText"></p>
+                    <p class="sub" id="predictionSub"></p>
+                </div>
+            </div>
+
+            <!-- ERREUR -->
+            <div id="error" class="error hidden">
+                <p id="errorText"></p>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="card-footer">
+            <span class="disclaimer">⚠️ Outil d'aide à la décision — Ne remplace pas un avis médical</span>
+            <span class="model-info">SVM · Scikit-learn</span>
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
