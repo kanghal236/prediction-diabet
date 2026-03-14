@@ -3,86 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DiabetPredict — Outil de Prédiction</title>
+    <title>DiabetPredict — Analyse Clinique</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
     <!-- NAVBAR -->
-    <div class="navbar">
-        <div class="logo">
-            <span class="logo-text">🏥 DiabetPredict</span>
+    <nav class="navbar">
+        <div class="nav-logo">
+            <div class="nav-logo-icon">🏥</div>
+            <span class="nav-logo-text">DiabetPredict</span>
         </div>
-        <span class="badge">Modèle SVM</span>
+        <span class="nav-tag">Outil d'Aide à la Décision Médicale</span>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1 class="hero-title">Analyse Prédictive du Risque Diabétique</h1>
+        <p class="hero-sub">Renseignez les paramètres biologiques du patient pour obtenir une analyse instantanée basée sur l'intelligence artificielle.</p>
     </div>
 
     <!-- CARTE PRINCIPALE -->
     <div class="card">
 
-        <!-- EN-TÊTE -->
-        <div class="card-header">
-            <div class="header-icon">🩺</div>
-            <div>
-                <h1>Analyse de Risque Diabétique</h1>
-                <p>Renseignez les paramètres cliniques du patient pour obtenir une prédiction basée sur l'IA</p>
-            </div>
-        </div>
-
-        <!-- CORPS -->
         <div class="card-body">
-            <p class="section-title">📋 Paramètres Cliniques</p>
+            <p class="section-title">Paramètres Biologiques du Patient</p>
 
             <form id="predictionForm">
                 <div class="form-grid">
 
                     <div class="form-group">
-                        <label for="glucose">Glucose <span class="unit">(mg/dL)</span></label>
+                        <label for="glucose">Taux de Glucose</label>
                         <input type="number" id="glucose" placeholder="Ex: 120" step="any" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="bloodpressure">Pression Artérielle <span class="unit">(mmHg)</span></label>
+                        <label for="bloodpressure">Pression Artérielle</label>
                         <input type="number" id="bloodpressure" placeholder="Ex: 70" step="any" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="skinthickness">Épaisseur de Peau <span class="unit">(mm)</span></label>
+                        <label for="skinthickness">Épaisseur Cutanée</label>
                         <input type="number" id="skinthickness" placeholder="Ex: 20" step="any" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="insulin">Insuline <span class="unit">(µU/mL)</span></label>
+                        <label for="insulin">Taux d'Insuline</label>
                         <input type="number" id="insulin" placeholder="Ex: 80" step="any" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="bmi">IMC / BMI <span class="unit">(kg/m²)</span></label>
+                        <label for="bmi">Indice de Masse Corporelle</label>
                         <input type="number" id="bmi" placeholder="Ex: 28.5" step="any" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="dpf">Diabetes Pedigree <span class="unit">(score)</span></label>
+                        <label for="dpf">Antécédents Familiaux</label>
                         <input type="number" id="dpf" placeholder="Ex: 0.5" step="any" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="age">Âge <span class="unit">(années)</span></label>
+                    <div class="form-group form-group-full">
+                        <label for="age">Âge du Patient</label>
                         <input type="number" id="age" placeholder="Ex: 35" step="any" required>
                     </div>
 
                 </div>
 
                 <button type="submit" id="submitBtn" class="btn-predict">
-                    🔍 Lancer l'Analyse Prédictive
+                    Lancer l'Analyse
                 </button>
             </form>
 
             <!-- RÉSULTAT -->
             <div id="result" class="result hidden">
-                <div class="result-header" id="resultHeader"></div>
-                <div class="result-body">
-                    <p id="predictionText"></p>
-                    <p class="sub" id="predictionSub"></p>
+                <div class="result-icon" id="resultIcon"></div>
+                <div class="result-content">
+                    <p class="result-title" id="predictionText"></p>
+                    <p class="result-sub" id="predictionSub"></p>
                 </div>
             </div>
 
@@ -94,8 +91,7 @@
 
         <!-- FOOTER -->
         <div class="card-footer">
-            <span class="disclaimer">⚠️ Outil d'aide à la décision — Ne remplace pas un avis médical</span>
-            <span class="model-info">SVM · Scikit-learn</span>
+            <span>⚕️ Cet outil est une aide à la décision et ne remplace pas un diagnostic médical professionnel.</span>
         </div>
 
     </div>
