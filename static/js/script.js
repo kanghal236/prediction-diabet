@@ -4,7 +4,7 @@ const resultDiv = document.getElementById("result");
 const errorDiv  = document.getElementById("error");
 const predText  = document.getElementById("predictionText");
 const predSub   = document.getElementById("predictionSub");
-const resHeader = document.getElementById("resultHeader");
+const resultIcon = document.getElementById("resultIcon");
 const errorText = document.getElementById("errorText");
 
 form.addEventListener("submit", async function(e) {
@@ -19,7 +19,7 @@ form.addEventListener("submit", async function(e) {
     const age           = parseFloat(document.getElementById("age").value);
 
     submitBtn.disabled = true;
-    submitBtn.textContent = "⏳ Analyse en cours...";
+    submitBtn.textContent = "Analyse en cours...";
     resultDiv.classList.add("hidden");
     errorDiv.classList.add("hidden");
 
@@ -39,14 +39,14 @@ form.addEventListener("submit", async function(e) {
 
             if (data.prediction === 1) {
                 resultDiv.className = "result positive";
-                resHeader.textContent = "⚠️ Résultat de l'Analyse";
+                resultIcon.textContent = "⚠️";
                 predText.textContent = "Risque de Diabète Détecté";
-                predSub.textContent = "Le modèle prédit un résultat positif. Une consultation médicale est recommandée.";
+                predSub.textContent = "Le modèle prédit un résultat positif. Une consultation médicale approfondie est fortement recommandée.";
             } else {
                 resultDiv.className = "result negative";
-                resHeader.textContent = "✅ Résultat de l'Analyse";
+                resultIcon.textContent = "✅";
                 predText.textContent = "Aucun Risque de Diabète Détecté";
-                predSub.textContent = "Le modèle prédit un résultat négatif. Continuez à maintenir un mode de vie sain.";
+                predSub.textContent = "Le modèle prédit un résultat négatif. Continuez à maintenir un mode de vie sain et des contrôles réguliers.";
             }
         } else {
             errorText.textContent = "Erreur serveur : " + data.error;
@@ -54,10 +54,10 @@ form.addEventListener("submit", async function(e) {
         }
 
     } catch (err) {
-        errorText.textContent = "❌ Impossible de contacter le serveur. Vérifiez que Flask est actif.";
+        errorText.textContent = "❌ Impossible de contacter le serveur.";
         errorDiv.classList.remove("hidden");
     }
 
     submitBtn.disabled = false;
-    submitBtn.textContent = "🔍 Lancer l'Analyse Prédictive";
+    submitBtn.textContent = "Lancer l'Analyse";
 });
